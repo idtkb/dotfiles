@@ -1,0 +1,40 @@
+autodetach on
+defkanji utf-8
+defencoding utf-8
+encoding utf-8 utf-8
+defscrollback 10000
+startup_message off
+vbell off
+
+hardstatus alwayslastline "[%02c] %`%-w%{=b bw}%n %t%{-}%+w"
+
+# 最終行にウィンドウ一覧を表示
+# hardstatus alwayslastline "[%02c] %`%-w%{=b bw}%n %t%{-}%+w"
+# ステータスラインの表示。
+#defhstatus I^En:^EtI
+
+escape ^Tt
+
+bind c screen
+#bind p prev
+#bind n next
+
+#bind -c REGION 2 split
+#bind -c REGION 1 only
+#bind -c REGION 0 remove
+#bind -c REGION o focus
+#bind -c REGION \^ resize
+bind x command -c REGION
+
+bindkey ^j next
+bindkey ^k prev
+bindkey ^y split
+bindkey ^u focus
+bindkey ^d remove
+bindkey ^o only
+
+bindkey ^r eval 'echo "Resize window"' 'command -c resize'
+bind -c resize ^] command
+bind -c resize j eval 'resize +1' 'command -c resize'
+bind -c resize k eval 'resize -1' 'command -c resize'
+
