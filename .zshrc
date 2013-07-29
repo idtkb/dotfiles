@@ -1,6 +1,48 @@
+function cd() {builtin cd $@ && ls -v -F}
+
+setopt auto_list
+setopt auto_cd         
+function chpwd() { ls }
+
+function cdup() {
+   echo
+   cd ..
+   zle reset-prompt
+}
+zle -N cdup
+bindkey '\^' cdup
+
+function google() {
+  local str opt
+  if [ $# != 0 ]; then
+    for i in $*; do
+      str="$str+$i"
+    done
+    str=`echo $str | sed 's/^\+//'`
+    opt='search?num=50&hl=ja&lr=lang_ja'
+    opt="${opt}&q=${str}"
+  fi
+  w3m http://www.google.co.jp/$opt
+}
+
+# ------------------------------
+# Look And Feel Settings
+# ------------------------------
+### Ls Color ###
+# 色の設定
+export LSCOLORS=Exfxcxdxbxegedabagacad
+# 補完時の色の設定
+export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+# ZLS_COLORSとは？
+export ZLS_COLORS=$LS_COLORS
+# lsコマンド時、自動で色がつく(ls -Gのようなもの？)
+export CLICOLOR=true
+# 補完候補に色を付ける
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+
 ### Prompt ###
 # プロンプトに色を付ける
-#autoload -U colors; colors
+autoload -U colors; colors
 # 一般ユーザ時
 tmp_prompt="%{${fg[cyan]}%}%n%# %{${reset_color}%}"
 tmp_prompt2="%{${fg[cyan]}%}%_> %{${reset_color}%}"
@@ -20,6 +62,8 @@ PROMPT2=$tmp_prompt2  # セカンダリのプロンプト(コマンドが2行以
 RPROMPT=$tmp_rprompt  # 右側のプロンプト
 SPROMPT=$tmp_sprompt  # スペル訂正用プロンプト
 
+alias ls='ls -GF'
+
 # 最後に打ったコマンドステータス行に
 if [ "$TERM" = "screen" ]; then
         chpwd () { echo -n "_`dirs`\\" }
@@ -29,7 +73,7 @@ if [ "$TERM" = "screen" ]; then
                 emulate -L zsh
                 local -a cmd; cmd=(${(z)2})
                 case $cmd[1] in
-                        fg)     if (( $#cmd == 1 )); then
+                        fg)     if ; then
                                         cmd=(builtin jobs -l %+)
                                 else
                                         cmd=(builtin jobs -l $cmd[2])
@@ -38,7 +82,7 @@ if [ "$TERM" = "screen" ]; then
                         %*)
                                 cmd=(builtin jobs -l $cmd[1])
                                 ;;
-                        cd)     if (( $#cmd == 2 )); then
+                        cd)                                if ; then
                                         cmd[1]=$cmd[2]
                                 fi
                                 ;&
@@ -56,3 +100,4 @@ if [ "$TERM" = "screen" ]; then
         }
         chpwd
 fi
+
