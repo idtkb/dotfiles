@@ -6,12 +6,10 @@ defscrollback 10000
 startup_message off
 vbell off
 
-hardstatus alwayslastline "[%02c] %`%-w%{=b bw}%n %t%{-}%+w"
-
 # 最終行にウィンドウ一覧を表示
-# hardstatus alwayslastline "[%02c] %`%-w%{=b bw}%n %t%{-}%+w"
+hardstatus alwayslastline "[%02c] %`%-w%{=b bw}%n %t%{-}%+w"
 # ステータスラインの表示。
-#defhstatus I^En:^EtI
+defhstatus I^En:^EtI
 
 escape ^Tt
 

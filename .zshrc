@@ -1,3 +1,5 @@
+export GIT_PROXY_COMMAND="/usr/local/bin/git-proxy.sh"
+
 function cd() {builtin cd $@ && ls -v -F}
 
 setopt auto_list
