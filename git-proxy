@@ -1,2 +1,2 @@
 #!/bin/sh
-corkscrew http://wp7a.epkowa.co.jp 8080 $1 $2
+corkscrew http://your.proxy.co.jp 8080 $1 $2
