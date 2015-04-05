@@ -91,15 +91,32 @@ inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><C-y>  neocomplcache#close_popup()
 inoremap <expr><C-e>  neocomplcache#cancel_popup()
 
-nmap <silent> <C-e>      :NERDTreeToggle<CR>
-vmap <silent> <C-e> <Esc>:NERDTreeToggle<CR>
-omap <silent> <C-e>      :NERDTreeToggle<CR>
-imap <silent> <C-e> <Esc>:NERDTreeToggle<CR>
-cmap <silent> <C-e> <C-u>:NERDTreeToggle<CR>
-autocmd vimenter * if !argc() | NERDTree | endif
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-let g:NERDTreeIgnore=['\.clean$', '\.swp$', '\.bak$', '\~$']
-let g:NERDTreeShowHidden=1
-let g:NERDTreeMinimalUI=1
-let g:NERDTreeDirArrows=0
-let g:NERDTreeMouseMode=2
+" 挿入モードでのカーソル移動(emacs風)
+inoremap <C-n> <Down>
+inoremap <C-p> <Up>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+inoremap <C-h> <Backspace>
+inoremap <C-d> <Del>
+"カーソル以降の文字を削除
+inoremap <C-k> <C-o>D
+"カーソル以前の文字を削除
+inoremap <C-u> <C-o>d0
+"アンドゥ
+inoremap <C-x>u <C-o>u
+
+" NERDTREEの設定
+" nmap <silent> <C-e>      :NERDTreeToggle<CR>
+" vmap <silent> <C-e> <Esc>:NERDTreeToggle<CR>
+" omap <silent> <C-e>      :NERDTreeToggle<CR>
+" imap <silent> <C-e> <Esc>:NERDTreeToggle<CR>
+" cmap <silent> <C-e> <C-u>:NERDTreeToggle<CR>
+" autocmd vimenter * if !argc() | NERDTree | endif
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" let g:NERDTreeIgnore=['\.clean$', '\.swp$', '\.bak$', '\~$']
+" let g:NERDTreeShowHidden=1
+" let g:NERDTreeMinimalUI=1
+" let g:NERDTreeDirArrows=0
+" let g:NERDTreeMouseMode=2
