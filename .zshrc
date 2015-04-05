@@ -1,18 +1,42 @@
-export GIT_PROXY_COMMAND="/usr/local/bin/git-proxy"
+#export GIT_PROXY_COMMAND="/usr/local/bin/git-proxy"
 
-function cd() {builtin cd $@ && ls -v -F}
+#fpath=($(brew --prefix)/share/zsh/site-functions $fpath)
+#autoload -U compinit ; compinit
 
-setopt auto_list
-setopt auto_cd         
-function chpwd() { ls }
+#source ~/.zsh/plugin/incr-0.2.zsh
 
-function cdup() {
-   echo
-   cd ..
-   zle reset-prompt
+zstyle ':completion:*' menu select
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
+zstyle ':completion:*:descriptions' format '%BCompleting%b %U%d%u'
+
+
+s(){
+    if [ $# -eq 0 ]; then
+        cat > /tmp/tmux.tmp && tmux split-window -h "less /tmp/tmux.tmp"
+    else
+        tmux split-window -h "$*"
+    fi
 }
-zle -N cdup
-bindkey '\^' cdup
+
+bindkey ^f forward-word
+bindkey ^b backward-word
+
+DIRSTACKSIZE=100
+setopt AUTO_PUSHD
+
+# z
+. `brew --prefix`/etc/profile.d/z.sh
+function precmd () {
+   z --add "$(pwd -P)"
+}
+
+
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt hist_ignore_dups
+setopt share_history
+
 
 function google() {
   local str opt
@@ -42,13 +66,26 @@ export CLICOLOR=true
 # 補完候補に色を付ける
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
+ICON=$'\U2601'
+
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' formats '(%s)-[%b]'
+zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
+
+precmd () {
+    psvar=()
+    LANG=en_US.UTF-8 vcs_info
+    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
+}
+
 ### Prompt ###
 # プロンプトに色を付ける
 autoload -U colors; colors
 # 一般ユーザ時
-tmp_prompt="%{${fg[cyan]}%}%n%# %{${reset_color}%}"
+#tmp_prompt="%{${fg[cyan]}%}%n%# %{${reset_color}%}"
+tmp_prompt="%{${fg[cyan]}%}$ICON %n%# %{${reset_color}%}"
 tmp_prompt2="%{${fg[cyan]}%}%_> %{${reset_color}%}"
-tmp_rprompt="%{${fg[green]}%}[%~]%{${reset_color}%}"
+tmp_rprompt="%{${fg[green]}%}%1(v|%F{green}%1v%f|)[%~]%{${reset_color}%}"
 tmp_sprompt="%{${fg[yellow]}%}%r is correct? [Yes, No, Abort, Edit]:%{${reset_color}%}"
 
 # rootユーザ時(太字にし、アンダーバーをつける)

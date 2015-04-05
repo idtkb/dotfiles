@@ -91,23 +91,30 @@ inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><C-y>  neocomplcache#close_popup()
 inoremap <expr><C-e>  neocomplcache#cancel_popup()
 
-" 挿入モードでのカーソル移動(emacs風)
-inoremap <C-n> <Down>
+" Insert mode like emacs
+"" Use <tab> to indent
+inoremap <tab> <C-o>==<End>
 inoremap <C-p> <Up>
+inoremap <C-n> <Down>
 inoremap <C-b> <Left>
 inoremap <C-f> <Right>
-inoremap <C-a> <Home>
 inoremap <C-e> <End>
+inoremap <C-a> <Home>
 inoremap <C-h> <Backspace>
 inoremap <C-d> <Del>
-"カーソル以降の文字を削除
+" カーソル位置の行をウィンドウの中央に来るようにスルロール
+inoremap <C-l> <C-o>zz
+" カーソル以降の文字を削除
 inoremap <C-k> <C-o>D
-"カーソル以前の文字を削除
+" カーソル以前の文字を削除
 inoremap <C-u> <C-o>d0
-"アンドゥ
+" アンドゥ
 inoremap <C-x>u <C-o>u
+" 貼りつけ
+inoremap <C-y> <C-o>P
+" カーソルから単語末尾まで削除
+inoremap <C-d>w <C-o>dw
 
-" NERDTREEの設定
 " nmap <silent> <C-e>      :NERDTreeToggle<CR>
 " vmap <silent> <C-e> <Esc>:NERDTreeToggle<CR>
 " omap <silent> <C-e>      :NERDTreeToggle<CR>
