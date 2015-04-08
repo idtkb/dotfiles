@@ -131,6 +131,12 @@ def configure(keymap):
     def forward_char():
         keymap.command_InputKey("Right")()
 
+    def select_backward_char():
+        keymap.command_InputKey("S-Left")()
+
+    def select_forward_char():
+        keymap.command_InputKey("S-Right")()
+
     def backward_word():
         keymap.command_InputKey("C-Left")()
 
@@ -142,6 +148,12 @@ def configure(keymap):
 
     def next_line():
         keymap.command_InputKey("Down")()
+
+    def select_previous_line():
+        keymap.command_InputKey("S-Up")()
+
+    def select_next_line():
+        keymap.command_InputKey("S-Down")()
 
     def move_beginning_of_line():
         keymap.command_InputKey("Home")()
@@ -222,6 +234,12 @@ def configure(keymap):
 
     def undo():
         keymap.command_InputKey("C-z")()
+
+    def chrome_previous_tab():
+        keymap.command_InputKey("C-PageUp")()
+
+    def chrome_next_tab():
+        keymap.command_InputKey("C-PageDown")()
 
     def set_mark_command():
         if keymap_emacs.is_marked:
@@ -441,8 +459,8 @@ def configure(keymap):
 
     ## マルチストロークキーの設定
 #    keymap_emacs["Esc"]            = keymap.defineMultiStrokeKeymap("Esc")
-#    keymap_emacs["LC-OpenBracket"] = keymap.defineMultiStrokeKeymap("C-OpenBracket")
-    keymap_emacs["LC-x"]           = keymap.defineMultiStrokeKeymap("C-x")
+    keymap_emacs["LC-OpenBracket"] = keymap.defineMultiStrokeKeymap("C-OpenBracket")
+#    keymap_emacs["LC-x"]           = keymap.defineMultiStrokeKeymap("C-x")
 #    keymap_emacs["LC-q"]           = keymap.defineMultiStrokeKeymap("C-q")
 
     ## 0-9キーの設定
@@ -485,8 +503,11 @@ def configure(keymap):
 #    keymap_emacs["LC-u"] = universal_argument
 
     ## 「IMEの切替え」のキー設定
+    # chrome tab 移動
+    keymap_emacs["LC-LW-p"] = chrome_previous_tab
+    keymap_emacs["LC-LW-n"] = chrome_next_tab
 
-    keymap_emacs["LC-OpenBracket"]   = disable_input_method
+    keymap_emacs["Esc"]   = disable_input_method
     keymap_emacs["(243)"]   = toggle_input_method
     keymap_emacs["(244)"]   = toggle_input_method
     keymap_emacs["LA-(25)"] = toggle_input_method
@@ -505,23 +526,23 @@ def configure(keymap):
 #    keymap_emacs["LC-x"]["C-w"] = reset_search(reset_counter(reset_mark(write_file)))
 
     ## 「カーソル移動」のキー設定
-#    keymap_emacs["LC-b"] = reset_search(reset_counter(repeat(mark(backward_char))))
-#    keymap_emacs["LC-f"] = reset_search(reset_counter(repeat(mark(forward_char))))
+    keymap_emacs["LC-LW-b"] = reset_search(reset_counter(repeat(mark(backward_word))))
+    keymap_emacs["LC-LW-f"] = reset_search(reset_counter(repeat(mark(forward_word))))
 
-#    keymap_emacs["LA-b"]                = reset_search(reset_counter(repeat(mark(backward_word))))
-#    keymap_emacs["Esc"]["b"]            = reset_search(reset_counter(repeat(mark(backward_word))))
-#    keymap_emacs["LC-OpenBracket"]["b"] = reset_search(reset_counter(repeat(mark(backward_word))))
+    keymap_emacs["LA-b"] = reset_search(reset_counter(mark(scroll_up)))
+    keymap_emacs["LA-f"] = reset_search(reset_counter(mark(scroll_down)))
 
-#    keymap_emacs["LA-f"]                = reset_search(reset_counter(repeat(mark(forward_word))))
-    keymap_emacs["LA-Left"]             = reset_search(reset_counter(repeat(mark(backward_word))))
-    keymap_emacs["LA-Right"]             = reset_search(reset_counter(repeat(mark(forward_word))))
-#    keymap_emacs["Esc"]["f"]            = reset_search(reset_counter(repeat(mark(forward_word))))
-#    keymap_emacs["LC-OpenBracket"]["f"] = reset_search(reset_counter(repeat(mark(forward_word))))
-
+    keymap_emacs["LC-b"] = reset_search(reset_counter(repeat(mark(backward_char))))
+    keymap_emacs["LC-f"] = reset_search(reset_counter(repeat(mark(forward_char))))
     keymap_emacs["LC-p"] = reset_search(reset_counter(repeat(mark(previous_line))))
     keymap_emacs["LC-n"] = reset_search(reset_counter(repeat(mark(next_line))))
     keymap_emacs["LC-a"] = reset_search(reset_counter(mark(move_beginning_of_line)))
     keymap_emacs["LC-e"] = reset_search(reset_counter(mark(move_end_of_line)))
+
+    keymap_emacs["LC-LS-b"] = reset_search(reset_counter(repeat(mark(select_backward_char))))
+    keymap_emacs["LC-LS-f"] = reset_search(reset_counter(repeat(mark(select_forward_char))))
+    keymap_emacs["LC-LS-p"] = reset_search(reset_counter(repeat(mark(select_previous_line))))
+    keymap_emacs["LC-LS-n"] = reset_search(reset_counter(repeat(mark(select_next_line))))
 
 #    keymap_emacs["LA-S-Comma"]                 = reset_search(reset_counter(mark(beginning_of_buffer)))
 #    keymap_emacs["Esc"]["S-Comma"]             = reset_search(reset_counter(mark(beginning_of_buffer)))
@@ -531,30 +552,19 @@ def configure(keymap):
 #    keymap_emacs["Esc"]["S-Period"]            = reset_search(reset_counter(mark(end_of_buffer)))
 #    keymap_emacs["LC-OpenBracket"]["S-Period"] = reset_search(reset_counter(mark(end_of_buffer)))
 
-#    keymap_emacs["LA-v"]                = reset_search(reset_counter(mark(scroll_up)))
 #    keymap_emacs["Esc"]["v"]            = reset_search(reset_counter(mark(scroll_up)))
 #    keymap_emacs["LC-OpenBracket"]["v"] = reset_search(reset_counter(mark(scroll_up)))
 
-#    keymap_emacs["LC-v"] = reset_search(reset_counter(mark(scroll_down)))
 #    keymap_emacs["LC-l"] = reset_search(reset_counter(recenter))
 
     ## 「カット / コピー / 削除 / アンドゥ」のキー設定
     keymap_emacs["LC-h"]    = reset_search(reset_counter(reset_mark(repeat2(delete_backward_char))))
     keymap_emacs["LC-d"]    = reset_search(reset_counter(reset_mark(repeat2(delete_char))))
-#    keymap_emacs["LC-Back"] = reset_search(reset_counter(reset_mark(repeat(backward_kill_word))))
 
-#    keymap_emacs["LA-Delete"]                = reset_search(reset_counter(reset_mark(repeat(backward_kill_word))))
-#    keymap_emacs["Esc"]["Delete"]            = reset_search(reset_counter(reset_mark(repeat(backward_kill_word))))
-#    keymap_emacs["LC-OpenBracket"]["Delete"] = reset_search(reset_counter(reset_mark(repeat(backward_kill_word))))
-
-#    keymap_emacs["LC-Delete"] = reset_search(reset_counter(reset_mark(repeat(kill_word))))
-
-#    keymap_emacs["LA-d"]                = reset_search(reset_counter(reset_mark(repeat(kill_word))))
-#    keymap_emacs["Esc"]["d"]            = reset_search(reset_counter(reset_mark(repeat(kill_word))))
-#    keymap_emacs["LC-OpenBracket"]["d"] = reset_search(reset_counter(reset_mark(repeat(kill_word))))
-
-    keymap_emacs["LC-k"] = reset_search(reset_counter(reset_mark(kill_line2)))
-    keymap_emacs["LC-w"] = reset_search(reset_counter(reset_mark(kill_region)))
+    keymap_emacs["LC-LW-h"]  = reset_search(reset_counter(reset_mark(repeat(backward_kill_word))))
+    keymap_emacs["LC-LW-d"]  = reset_search(reset_counter(reset_mark(repeat(kill_word))))
+    keymap_emacs["LC-k"]  = reset_search(reset_counter(reset_mark(kill_line2)))
+#    keymap_emacs["LC-w"] = reset_search(reset_counter(reset_mark(kill_region)))
 
 #    keymap_emacs["LA-w"]                = reset_search(reset_counter(reset_mark(kill_ring_save)))
 #    keymap_emacs["Esc"]["w"]            = reset_search(reset_counter(reset_mark(kill_ring_save)))
@@ -596,7 +606,7 @@ def configure(keymap):
 #    keymap_emacs["LC-x"]["e"] = reset_search(reset_counter(repeat(kmacro_end_and_call_macro)))
 
     ## 「その他」のキー設定
-#    keymap_emacs["LC-m"]        = reset_counter(reset_mark(repeat(newline)))
+    keymap_emacs["LC-m"]        = reset_counter(reset_mark(repeat(newline)))
 #    keymap_emacs["Enter"]       = reset_counter(reset_mark(repeat(newline)))
 #    keymap_emacs["LC-j"]        = reset_counter(reset_mark(newline_and_indent))
 #    keymap_emacs["LC-i"]        = reset_counter(reset_mark(repeat(indent_for_tab_command)))
@@ -606,10 +616,10 @@ def configure(keymap):
 #    keymap_emacs["LC-x"]["C-y"] = reset_search(reset_counter(reset_mark(clipboard_list)))
 
     ## Excel のキー設定（オプション）
-#    if 1:
-#        keymap_excel = keymap.defineWindowKeymap(class_name='EXCEL*')
-#        # C-Enter 押下で、「セル編集モード」に移行する
-#        keymap_excel["LC-Enter"] = reset_search(reset_counter(reset_mark(self_insert_command("F2"))))
+    if 1:
+        keymap_excel = keymap.defineWindowKeymap(class_name='EXCEL*')
+        # C-Enter 押下で、「セル編集モード」に移行する
+        keymap_excel["LC-Enter"] = reset_search(reset_counter(reset_mark(self_insert_command("F2"))))
 
     ## Emacs のキー設定（オプション）
 #    if 0:

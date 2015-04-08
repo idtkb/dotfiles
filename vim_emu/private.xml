@@ -106,5 +106,20 @@
             KeyCode::VK_CHANGE_INPUTSOURCE_ENGLISH,
             KeyCode::SPACE, ModifierFlag::CONTROL_L
         </autogen>
-    </item>
+      </item>
+
+      <item>
+        <name>PageUp/PageDown like vim</name>
+        <identifier>private.remap_key.pgup_pgdown</identifier>
+        <autogen>
+          __KeyToKey__ KeyCode::B,
+          ModifierFlag::CONTROL_L | ModifierFlag::COMMAND_L,
+          KeyCode::PAGEUP
+        </autogen>
+        <autogen>
+          __KeyToKey__ KeyCode::F,
+          ModifierFlag::CONTROL_L | ModifierFlag::COMMAND_L,
+          KeyCode::PAGEDOWN
+        </autogen>
+      </item>
 </root>

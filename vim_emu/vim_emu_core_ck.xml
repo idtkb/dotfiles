@@ -163,11 +163,13 @@
         </autogen>
       </block>
       <autogen>
+        <!-- __HoldingKeyToKey__ KeyCode::BRACKET_LEFT, -->
+        <!-- VK_CONTROL,                                -->
         __KeyToKey__ KeyCode::BRACKET_LEFT,
-        VK_CONTROL|ModifierFlag::NONE, 
+        VK_CONTROL|ModifierFlag::NONE,
         {{VIM_EMU_FORCE_ON_NORMAL_MODE}},
         KeyCode::VK_NONE,
-        KeyCode::BRACKET_LEFT, Option::NOREPEAT
+        KeyCode::ESCAPE, Option::NOREPEAT
       </autogen>
       <!-- Others -->
       <!-- <autogen>                                    -->
